@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <title>JQUERY</title>
+    <style>
+        ul.tab {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            padding-top: 10px;
+        }
+        
+        ul.tab li a {
+            text-decoration: none;
+            display: block;
+            background-color: blue;
+            color: white;
+            padding: 15px 20px;
+            margin-right: 5px;
+            min-width: 120px;
+            text-align: center;
+        }
+        
+        .active {
+            background-color: red !important;
+            color: white;
+        }
+        
+        .tab-content h1 {
+            margin: 0;
+            padding: 15px 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Demo Jquery</h1>
+    <section>
+        <div>
+            <input type="text" placeholder="Nhập tên tab" id="tabName">
+            <input type="text" placeholder="Nhập nội dung" id="tabContent">
+            <input type="button" value="Thêm tab" id="addTabId">
+        </div>
+        <ul class="tab">
+            <li><a href="#tab1" class="active">Javascript</a></li>
+            <li><a href="#tab2">PHP</a></li>
+            <li><a href="#tab3">Laravel</a></li>
+            <li><a href="#tab4">C#</a></li>
+        </ul>
+        <div class="tab-content active">
+            <h1 id="tab1">WELCOME Javascript</h1>
+            <h1 id="tab2">WELCOME PHP</h1>
+            <h1 id="tab3">WELCOME Laravel</h1>
+            <h1 id="tab4">WELCOME C#</h1>
+        </div>
+    </section>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.tab-content h1:not(:first-child)').hide(); // Ẩn tất cả các h1 trừ cái h1 đầu tiên ra
+            $('ul.tab').on('click', 'li a', function() {
+                event.preventDefault(); //chặn xữ lý mặc định của 1 thành phần nào đó
+                // xữ lý tab
+                $('ul.tab li a').removeClass('active'); //xóa tất cả các active
+                $(this).addClass('active'); //thêm active
+                // xữ lý content
+                var tab = $(this).attr('href'); // thẻ a đang được click lấy thuộc tính href tương ứng với nó
+                $('.tab-content h1').hide();
+                $(tab).show();
+            })
+            $('.tab li a').on({
+                mouseenter: function() {
+                    $(this).css('color', 'black')
+                },
+                mouseleave: function() {
+                    $(this).css('color', 'white')
+                }
+            })
+            $('#addTabId').click(function() {
+                var name = $('#tabName').val();
+                var content = $('#tabContent').val();
+
+                var count = $('ul.tab li').length; //đếm số lượng thẻ li
+                // thêm dữ liệu
+                $('.tab').append(
+                    `<li><a href="#tab${count+1}">${name}</a></li>`
+                )
+                $('.tab-content').append(
+                    `<h1 id="tab${count+1}" style="display: none;">${content}</h1>`
+                )
+            })
+        })
+    </script>
+</body>
+
+</html>
